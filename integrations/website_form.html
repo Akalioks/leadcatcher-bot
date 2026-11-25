@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- Example: a website form that sends leads to LeadCatcher (the same sales chat, CSV and CRM as Telegram leads).
+     Copy the <form> and <script> into any site. Change API to your bot's address. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a call</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+  label { display: block; margin-top: 12px; font-weight: 600; }
+  input, textarea { width: 100%; box-sizing: border-box; padding: 10px; font: inherit; border: 1px solid #bbb; border-radius: 8px; }
+  button { margin-top: 16px; padding: 12px 20px; font: inherit; border: 0; border-radius: 8px; background: #2563eb; color: #fff; }
+  .trap { position: absolute; left: -9999px; }  /* hidden from people, bots fill it in */
+  #status { margin-top: 12px; }
+</style>
+</head>
+<body>
+<form id="lead-form">
+  <label>Name <input name="name" required minlength="2" autocomplete="name"></label>
+  <label>Phone <input name="phone" type="tel" autocomplete="tel" placeholder="+372 5555 1234"></label>
+  <label>Email <input name="email" type="email" autocomplete="email"></label>
+  <label>Message <textarea name="message" rows="3"></textarea></label>
+  <input type="hidden" name="source" value="landing-example">
+  <input class="trap" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <button type="submit">Request a call</button>
+  <p id="status" role="status"></p>
+</form>
+<script>
+  const API = "https://leads.example.com/api/leads";  // ← your bot's address
+  const form = document.getElementById("lead-form"), status = document.getElementById("status");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const button = form.querySelector("button");
+    button.disabled = true;
+    status.textContent = "Sending…";
+    try {
+      const res = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" },
+                                     body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error);
+      form.reset();
+      status.textContent = "✅ Thank you! We'll contact you shortly.";
+    } catch (err) {
+      status.textContent = "⚠️ " + (err.message || "Something went wrong. Please call us.");
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

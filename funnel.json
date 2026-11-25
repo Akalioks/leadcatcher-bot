@@ -1,0 +1,89 @@
+{
+  "company": "SunBay Solar",
+  "intro": "Hi {first_name}! 👋 I'm the <b>SunBay Solar</b> assistant.\n\nAnswer a few quick questions and get a <b>free estimate</b> of solar panels for your property. It takes about a minute.",
+  "steps": [
+    {
+      "id": "property",
+      "title": "Property",
+      "type": "choice",
+      "question": "What kind of property is it?",
+      "options": [
+        { "label": "🏠 Private house", "score": 30 },
+        { "label": "🏢 Apartment building", "score": 20 },
+        { "label": "🏭 Business or farm", "score": 30 },
+        { "label": "🤔 Just exploring", "score": 0 }
+      ]
+    },
+    {
+      "id": "bill",
+      "title": "Electricity bill",
+      "type": "choice",
+      "question": "What is your average monthly electricity bill?",
+      "options": [
+        { "label": "Under €50", "score": 0 },
+        { "label": "€50–150", "score": 15 },
+        { "label": "€150–300", "score": 25 },
+        { "label": "Over €300", "score": 30 }
+      ]
+    },
+    {
+      "id": "timeline",
+      "title": "Timeline",
+      "type": "choice",
+      "question": "When would you like the panels installed?",
+      "options": [
+        { "label": "🔥 Within a month", "score": 30 },
+        { "label": "In 1–3 months", "score": 20 },
+        { "label": "This year", "score": 10 },
+        { "label": "Not sure yet", "score": 0 }
+      ]
+    },
+    {
+      "id": "city",
+      "title": "Location",
+      "type": "text",
+      "question": "Which city or town is the property in?",
+      "options": [
+        { "label": "Tallinn" },
+        { "label": "Tartu" },
+        { "label": "Pärnu" },
+        { "label": "Narva" }
+      ],
+      "min_len": 2,
+      "max_len": 60
+    },
+    {
+      "id": "name",
+      "title": "Name",
+      "type": "text",
+      "field": "name",
+      "question": "How should we address you?",
+      "min_len": 2,
+      "max_len": 60
+    },
+    {
+      "id": "phone",
+      "title": "Phone",
+      "type": "phone",
+      "field": "phone",
+      "question": "Your phone number? A specialist will call you with the estimate.\n\nTap the button below or type the number."
+    },
+    {
+      "id": "email",
+      "title": "Email",
+      "type": "email",
+      "field": "email",
+      "optional": true,
+      "score": 5,
+      "question": "Email for a written estimate? (optional)"
+    }
+  ],
+  "scoring": { "hot": 70, "warm": 40 },
+  "finish": {
+    "hot": "🔥 Thank you, {name}! Your property looks like a great fit.\n\nA specialist will call you <b>within 15 minutes</b> (Mon–Fri 9:00–18:00).",
+    "warm": "✅ Thank you, {name}! We've got your request.\n\nA specialist will contact you <b>within one working day</b>.",
+    "cold": "✅ Thank you, {name}! We've got your request.\n\nWe'll send you a short guide on solar savings and get in touch when you're ready."
+  },
+  "sla_minutes": { "hot": 15, "warm": 120 },
+  "website_temperature": "warm"
+}
